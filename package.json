@@ -1,0 +1,16 @@
+{
+    "name": "dingdong",
+    "version": "1.0.0",
+    "main": "index.js",
+    "author": "Runc2333",
+    "license": "GPL-3.0",
+    "scripts": {
+        "checkout:normal": "node scripts/checkout_cart",
+        "checkout:speed": "node scripts/checkout_cart speedcheck"
+    },
+    "dependencies": {
+        "axios": "^0.26.1",
+        "dateformat": "^4.5.1",
+        "fs-extra": "^10.1.0"
+    }
+}

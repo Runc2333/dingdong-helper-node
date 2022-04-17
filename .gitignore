@@ -1,0 +1,6 @@
+node_modules
+charles_sessions/*
+config/config.js
+log/*
+*.log
+service/dingdong/cache/*
