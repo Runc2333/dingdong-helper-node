@@ -38,7 +38,7 @@ profiles: [
 
 6、在请求中找到`https://maicai.api.ddxq.mobi/homeApi/categoriesNewDatail`
 
-7、右击该请求，选择`Export Session`，保存到项目`charles_sessions`文件夹下，文件类型请选择JSON Session File (.chlsj)
+7、右击该请求，选择`Export Session`，保存到项目`charles_sessions`文件夹下，文件类型请选择`JSON Session File (.chlsj)`
 
 ## 获取收货地址ID（`address_id`）
 
