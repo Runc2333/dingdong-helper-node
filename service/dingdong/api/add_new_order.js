@@ -3,7 +3,7 @@ const tools = require('../../../utils/tools');
 module.exports = async (token, cart, order, reserve_time) => {
     let { params, headers, user } = token;
     if (order.order.total_money < config.dingdong.minimal_order_money) {
-        throw new Error(`订单金额不满足最低要求: ${order.order.total_money} 元`);
+        throw (`订单金额不满足最低要求: ${order.order.total_money} 元`);
     }
     let package_order = {
         "payment_order": {

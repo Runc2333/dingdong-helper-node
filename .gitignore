@@ -4,3 +4,4 @@ config/config.js
 log/*
 *.log
 service/dingdong/cache/*
+scripts/test.js

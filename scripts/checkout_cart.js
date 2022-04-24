@@ -64,7 +64,7 @@ const check_order = async (token, cart, reserve_time) => {
             order = undefined;
             logger.e(`获取订单失败: ${e}`);
             if (String(e).trim().length === 0) continue;
-            if (!speedcheck) await tools.sleep(tools.rand_between(config.dingdong.submit_interval_min, config.dingdong.submit_interval_max));
+            if (!speedcheck) await tools.sleep(100);
         }
     }
     logger.i(`订单信息更新: 总计: ${order.order.total_money} 元`);
@@ -85,38 +85,47 @@ const check_order = async (token, cart, reserve_time) => {
                     await ddmc.add_new_order(token, cart, order, reserve_time);
                     success = true;
                 } catch (e) {
-                    success = false;
+                    success = false; // Reset success flag
                     logger.e(`[${profile.alias}] 下单失败: ${e}`);
                     if (String(e).includes('时')) {
+                        // Reserve time changed, refresh
                         reserve_time = await get_reserve_time(token, cart);
                         await check_order(token, cart, reserve_time);
                     }
-                    if (String(e).includes('售罄')) {
+                    if (String(e).includes('售罄') || String(e).includes('订单金额不满足最低要求')) {
+                        // Cart changed, refresh
                         await ddmc.cart_check_all(token);
                         cart = await get_cart(token);
                         await check_order(token, cart, reserve_time);
                     }
-                    await tools.sleep(100);
                 }
-                if (config.dingdong.webhook_url) {
-                    axios({
-                        method: 'get',
-                        url: `${config.dingdong.webhook_url}/dingdongsuccess${JSON.stringify({
-                            device: profile.alias,
-                            amount: order.order.total_money,
-                            time: reserve_time.time_text,
-                        })}`,
-                    });
+                // Success logic
+                if (success) {
+                    // Send notification to webhook
+                    if (config.dingdong.webhook_url) {
+                        axios({
+                            method: 'get',
+                            url: `${config.dingdong.webhook_url}/${encodeURIComponent(`dingdongsuccess${JSON.stringify({
+                                device: profile.alias,
+                                amount: order.order.total_money,
+                                time: reserve_time.time_text,
+                            })}`)}`,
+                        });
+                    }
+                    logger.i(`[${profile.alias}] 下单成功`);
+                    if (!speedcheck) {
+                        // Loop when in normal mode
+                        success = false; // Reset success flag
+                        // Refresh cart and reserve time
+                        cart = await get_cart(token);
+                        reserve_time = await get_reserve_time(token, cart);
+                        order = await check_order(token, cart, reserve_time);
+                        continue; // Continue loop
+                    }
                 }
-                logger.i(`[${profile.alias}] 下单成功`);
-                if (!speedcheck) {
-                    success = false;
-                    cart = await get_cart(token);
-                    reserve_time = await get_reserve_time(token, cart);
-                    order = await check_order(token, cart, reserve_time);
-                    continue;
-                }
+                if (!speedcheck) await tools.sleep(200);
             }
         })();
+        if (!speedcheck) await tools.sleep(1000);
     }
 })();
