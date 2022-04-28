@@ -48,10 +48,6 @@ module.exports = async (token, cart, order, reserve_time) => {
             }
             return ret;
         }],
-        proxy: {
-            host: '127.0.0.1',
-            port: 8888
-        }
     })));
 
     if (result.data.success) {
