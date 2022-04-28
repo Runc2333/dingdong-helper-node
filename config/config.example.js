@@ -7,7 +7,6 @@ global.config = {
         profiles: [
             {
                 seq: 0, // 指示程序读取charles_sessions目录下的第几个文件
-                address_id: '', // 下单使用的收货地址ID，获取请参见下文
                 alias: '', // 配置文件别名，用于在下单成功时提示是哪个账号
             }
         ],
