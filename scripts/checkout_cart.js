@@ -81,6 +81,10 @@ const check_order = async (token, cart, reserve_time) => {
             let default_address = address.valid_address.find((addr) => {
                 return addr.is_default;
             });
+            if (!default_address) {
+                logger.e(`[${profile.alias}] 没有设置默认地址，请先设置`);
+                process.exit(1);
+            }
             token.params.station_id = default_address.station_id;
             token.params.city_number = default_address.city_number;
             token.headers["ddmc-city-number"] = default_address.city_number;
