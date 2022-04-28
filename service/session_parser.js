@@ -5,7 +5,7 @@ const tools = require('../utils/tools');
 const load_profile = (profile) => {
     let req_data;
     try {
-        req_data = JSON.parse(fs.readFileSync(path.join(__dirname, '../charles_sessions', fs.readdirSync(path.join(__dirname, '../charles_sessions'))[profile.seq]), 'utf8'));
+        req_data = JSON.parse(fs.readFileSync(path.join(__dirname, '../charles_sessions', fs.readdirSync(path.join(__dirname, '../charles_sessions')).filter(v => /\.chlsj$/.test(v))[profile.seq]), 'utf8'));
     } catch (e) {
         logger.e(e);
         process.exit(1);
