@@ -7,6 +7,21 @@ const { load_profile } = require('../service/session_parser');
 
 let speedcheck = process.argv[2] === 'speedcheck';
 
+const get_address = async (token) => {
+    let address;
+    while (!address) {
+        try {
+            address = await ddmc.get_address(token);
+        } catch (e) {
+            address = undefined;
+            logger.e(`获取地址列表失败: ${e}`);
+            if (/您的访问已过期/.test(e)) process.exit(1);
+            if (!speedcheck) await tools.sleep(tools.rand_between(config.dingdong.submit_interval_min, config.dingdong.submit_interval_max));
+        }
+    }
+    return address;
+};
+
 const get_cart = async (token) => {
     let cart;
     while (!cart) {
@@ -64,6 +79,7 @@ const check_order = async (token, cart, reserve_time) => {
         } catch (e) {
             order = undefined;
             logger.e(`获取订单失败: ${e}`);
+            logger.e(e.stack);
             if (String(e).trim().length === 0) continue;
             if (!speedcheck) await tools.sleep(100);
         }
@@ -77,7 +93,7 @@ const check_order = async (token, cart, reserve_time) => {
         (async () => {
             let token = load_profile(profile);
             // Rewrite station id and address id as default address
-            let address = await ddmc.get_address(token);
+            let address = await get_address(token);
             let default_address = address.valid_address.find((addr) => {
                 return addr.is_default;
             });

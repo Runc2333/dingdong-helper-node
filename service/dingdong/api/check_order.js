@@ -3,7 +3,7 @@ module.exports = async (token, cart) => {
     let products = cart.new_order_product_list[0].products.map(v => {
         return {
             "id": v.id,
-            "category_path": (cart.product.effective[0].products.find(v => v.id === v.id).category_path || cart.product.invalid[0].products.find(v => v.id === v.id).category_path) || '',
+            "category_path": cart.product.effective[0].products.find(v => v.id === v.id).category_path || '',
             "count": v.count,
             "price": v.price,
             "total_money": v.total_price,
