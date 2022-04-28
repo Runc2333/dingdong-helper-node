@@ -54,6 +54,6 @@ module.exports = async (token, id) => {
     if (result.data.success) {
         return result.data.data;
     } else {
-        throw (result.data.msg);
+        throw (result.data.msg || result.data.message);
     }
 };

@@ -13,6 +13,6 @@ module.exports = async (token) => {
     if (result.data.success) {
         return result.data.data;
     } else {
-        throw (result.data.msg);
+        throw (result.data.msg || result.data.message);
     }
 };

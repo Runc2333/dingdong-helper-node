@@ -20,6 +20,6 @@ module.exports = async (token, keyword) => {
     if (result.data.success) {
         return result.data.data.product_list;
     } else {
-        throw (result.data.msg);
+        throw (result.data.msg || result.data.message);
     }
 };
