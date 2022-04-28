@@ -2,10 +2,10 @@ module.exports = async (token) => {
     let { params, headers } = token;
     let result = ((await axios({
         method: 'get',
-        url: 'https://maicai.api.ddxq.mobi/cart/index',
+        url: 'https://sunquan.api.ddxq.mobi/api/v1/user/address/',
         params: {
             ...params,
-            is_load: 1,
+            source_type: 5,
         },
         headers: headers,
     })));

@@ -3,7 +3,7 @@ require('../utils/autoloader');
 
 const axios = require('axios');
 const ddmc = require('../service/dingdong');
-const { load_profile } = require('../service/token_parser');
+const { load_profile } = require('../service/session_parser');
 
 let speedcheck = process.argv[2] === 'speedcheck';
 
@@ -32,7 +32,7 @@ const get_reserve_time = async (token, cart) => {
     while (!reserve_time) {
         try {
             let resp = await ddmc.get_multi_reserve_time(token, cart);
-            for (let time of resp[0].time[0].times) {
+            for (let time of resp.time[0].times) {
                 if (!time.fullFlag) {
                     reserve_time = {
                         reserved_time_start: time.start_timestamp,
@@ -48,6 +48,7 @@ const get_reserve_time = async (token, cart) => {
         } catch (e) {
             reserve_time = undefined;
             logger.e(`获取预约时间失败: ${e}`);
+            logger.e(e.stack);
             if (!speedcheck) await tools.sleep(tools.rand_between(config.dingdong.submit_interval_min, config.dingdong.submit_interval_max));
         }
     }
@@ -75,6 +76,17 @@ const check_order = async (token, cart, reserve_time) => {
     for (let profile of config.dingdong.profiles) {
         (async () => {
             let token = load_profile(profile);
+            // Rewrite station id and address id as default address
+            let address = await ddmc.get_address(token);
+            let default_address = address.valid_address.find((addr) => {
+                return addr.is_default;
+            });
+            token.params.station_id = default_address.station_id;
+            token.params.city_number = default_address.city_number;
+            token.headers["ddmc-city-number"] = default_address.city_number;
+            token.user.address_id = default_address.id;
+            logger.i(`[${profile.alias}] 当前默认地址 : ${default_address.location.address}`);
+            // Tring to make order
             let cart = await get_cart(token);
             let reserve_time = await get_reserve_time(token, cart);
             let order = await check_order(token, cart, reserve_time);
