@@ -36,6 +36,7 @@ const get_cart = async (token) => {
         } catch (e) {
             cart = undefined;
             logger.e(`获取购物车内容失败: ${e}`);
+            if (e.stack) logger.e(e.stack);
             if (!speedcheck) await tools.sleep(tools.rand_between(config.dingdong.submit_interval_min, config.dingdong.submit_interval_max));
         }
     }
@@ -63,7 +64,7 @@ const get_reserve_time = async (token, cart) => {
         } catch (e) {
             reserve_time = undefined;
             logger.e(`获取预约时间失败: ${e}`);
-            logger.e(e.stack);
+            if (e.stack) logger.e(e.stack);
             if (!speedcheck) await tools.sleep(tools.rand_between(config.dingdong.submit_interval_min, config.dingdong.submit_interval_max));
         }
     }
@@ -79,7 +80,7 @@ const check_order = async (token, cart, reserve_time) => {
         } catch (e) {
             order = undefined;
             logger.e(`获取订单失败: ${e}`);
-            logger.e(e.stack);
+            if (e.stack) logger.e(e.stack);
             if (String(e).trim().length === 0) continue;
             if (!speedcheck) await tools.sleep(100);
         }
