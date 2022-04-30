@@ -5,3 +5,5 @@ log/*
 *.log
 service/dingdong/cache/*
 scripts/test.js
+service/dingdong/api/ios-native/_native_sign.js
+service/dingdong/api/ios-native/_native_sign.encrypted.js
