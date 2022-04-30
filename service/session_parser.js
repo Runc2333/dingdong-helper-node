@@ -9,6 +9,7 @@ const load_profile = (profile) => {
         req_data = JSON.parse(fs.readFileSync(path.join(__dirname, '../charles_sessions', fs.readdirSync(path.join(__dirname, '../charles_sessions')).filter(v => /\.chlsj$/.test(v))[profile.seq]), 'utf8'));
     } catch (e) {
         logger.e(e);
+        logger.e('请检查您的配置文件是否正确, charles_session 目录下是否存在 .chlsj（JSON Session File） 文件');
         process.exit(1);
     }
 
@@ -72,30 +73,30 @@ const load_profile = (profile) => {
         };
     });
     const headers = new Proxy({
-        "ddmc-city-number": header.find(item => item.name == "ddmc-city-number").value,
-        "ddmc-locale-identifier": header.find(item => item.name == "ddmc-locale-identifier").value,
-        "user-agent": header.find(item => item.name == "user-agent").value,
-        "ddmc-device-token": header.find(item => item.name == "ddmc-device-token").value,
-        "cookie": header.find(item => item.name == "cookie").value,
-        "ddmc-api-version": header.find(item => item.name == "ddmc-api-version").value,
-        "ddmc-build-version": header.find(item => item.name == "ddmc-build-version").value,
-        "ddmc-idfa": header.find(item => item.name == "ddmc-idfa").value,
-        "ddmc-longitude": header.find(item => item.name == "ddmc-longitude").value,
-        "ddmc-latitude": header.find(item => item.name == "ddmc-latitude").value,
-        "ddmc-app-client-id": header.find(item => item.name == "ddmc-app-client-id").value,
-        "ddmc-device-name": header.find(item => item.name == "ddmc-device-name").value,
-        "ddmc-uid": header.find(item => item.name == "ddmc-uid").value,
-        "accept-language": header.find(item => item.name == "accept-language").value,
-        "ddmc-device-model": header.find(item => item.name == "ddmc-device-model").value,
-        "ddmc-channel": header.find(item => item.name == "ddmc-channel").value,
-        "ddmc-country-code": header.find(item => item.name == "ddmc-country-code").value,
-        "ddmc-device-id": header.find(item => item.name == "ddmc-device-id").value,
-        "ddmc-ip": header.find(item => item.name == "ddmc-ip").value,
-        "ddmc-station-id": header.find(item => item.name == "ddmc-station-id").value,
-        "ddmc-language-code": header.find(item => item.name == "ddmc-language-code").value,
-        "accept": header.find(item => item.name == "accept").value,
-        "accept-encoding": header.find(item => item.name == "accept-encoding").value,
-        "ddmc-os-version": header.find(item => item.name == "ddmc-os-version").value,
+        "ddmc-city-number": header.find(item => item.name.toLowerCase() == "ddmc-city-number").value,
+        "ddmc-locale-identifier": header.find(item => item.name.toLowerCase() == "ddmc-locale-identifier").value,
+        "user-agent": header.find(item => item.name.toLowerCase() == "user-agent").value,
+        "ddmc-device-token": header.find(item => item.name.toLowerCase() == "ddmc-device-token").value,
+        "cookie": header.find(item => item.name.toLowerCase() == "cookie").value,
+        "ddmc-api-version": header.find(item => item.name.toLowerCase() == "ddmc-api-version").value,
+        "ddmc-build-version": header.find(item => item.name.toLowerCase() == "ddmc-build-version").value,
+        "ddmc-idfa": header.find(item => item.name.toLowerCase() == "ddmc-idfa").value,
+        "ddmc-longitude": header.find(item => item.name.toLowerCase() == "ddmc-longitude").value,
+        "ddmc-latitude": header.find(item => item.name.toLowerCase() == "ddmc-latitude").value,
+        "ddmc-app-client-id": header.find(item => item.name.toLowerCase() == "ddmc-app-client-id").value,
+        "ddmc-device-name": header.find(item => item.name.toLowerCase() == "ddmc-device-name").value,
+        "ddmc-uid": header.find(item => item.name.toLowerCase() == "ddmc-uid").value,
+        "accept-language": header.find(item => item.name.toLowerCase() == "accept-language").value,
+        "ddmc-device-model": header.find(item => item.name.toLowerCase() == "ddmc-device-model").value,
+        "ddmc-channel": header.find(item => item.name.toLowerCase() == "ddmc-channel").value,
+        "ddmc-country-code": header.find(item => item.name.toLowerCase() == "ddmc-country-code").value,
+        "ddmc-device-id": header.find(item => item.name.toLowerCase() == "ddmc-device-id").value,
+        "ddmc-ip": header.find(item => item.name.toLowerCase() == "ddmc-ip").value,
+        "ddmc-station-id": header.find(item => item.name.toLowerCase() == "ddmc-station-id").value,
+        "ddmc-language-code": header.find(item => item.name.toLowerCase() == "ddmc-language-code").value,
+        "accept": header.find(item => item.name.toLowerCase() == "accept").value,
+        "accept-encoding": header.find(item => item.name.toLowerCase() == "accept-encoding").value,
+        "ddmc-os-version": header.find(item => item.name.toLowerCase() == "ddmc-os-version").value,
         im_secret: profile.im_secret,
     }, {
         get (target, key) {
