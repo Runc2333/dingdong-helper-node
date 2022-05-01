@@ -1,6 +1,8 @@
 require('../config/config');
 require('../utils/autoloader');
 
+const path = require('path');
+const player = require('sound-play');
 const ddmc = require('../service/dingdong');
 const webhook = require('../service/webhook');
 const { load_profile } = require('../service/session_parser');
@@ -140,6 +142,13 @@ const check_order = async (token, cart, reserve_time) => {
                     } catch (e) {
                         logger.e(`[${profile.alias}] 调用 Webhook 方法时出现错误: ${e}`);
                         logger.e(`[${profile.alias}] 请检查您的 webhook_url 是否正确, /service/webhook.js 是否编写正确`);
+                        if (e.stack) logger.d(e.stack);
+                    }
+                    // Play notification sound
+                    try {
+                        player.play(path.join(__dirname, '..', 'assets', "success.mp3"), 1);
+                    } catch (e) {
+                        logger.e(`播放提示音失败: ${e}`);
                         if (e.stack) logger.d(e.stack);
                     }
                     logger.i(`[${profile.alias}] 下单成功`);

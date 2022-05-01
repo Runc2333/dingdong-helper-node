@@ -17,6 +17,8 @@ Telegram 交流群组：[点击加入](https://t.me/weneedfood)
 
 `api_version: 9.50.1`
 
+> 2022-05-01 19:42: 拉取最新repo时请再执行一次安装依赖的命令，添加了播放音频的库
+
 **使用iOS原生客户端API，下单与iOS真机无差异，已测试可成功下单。**
 
 **请注意：** 更新后配置文件结构有更改，需要重新配置。
@@ -133,6 +135,12 @@ yarn checkout:normal
 ```
 
 您可以通过修改`/service/webhook.js`来改变请求发送的方式、`body`的格式和内容，但入参（`{ profile, order, reserve_time, cart }`）不能修改。
+
+# 下单成功提示音
+
+下单成功时会播放`/assets/success.mp3`，默认为小猪佩奇，可自行替换。
+
+目前不支持关闭。
 
 # 免责声明
 
