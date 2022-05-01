@@ -2,7 +2,7 @@ module.exports = async (session, cart) => {
     let products = JSON.stringify(cart.new_order_product_list[0].products.map(product => {
         return {
             "sale_batches": {
-                "batch_type": product.sale_batches.batch_type
+                "batch_type": product.sale_batches ? product.sale_batches.batch_type : 0,
             },
             "is_coupon_gift": 0,
             "id": product.id,
