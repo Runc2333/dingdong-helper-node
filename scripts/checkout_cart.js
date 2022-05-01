@@ -1,8 +1,8 @@
 require('../config/config');
 require('../utils/autoloader');
 
-const axios = require('axios').create();
 const ddmc = require('../service/dingdong');
+const webhook = require('../service/webhook');
 const { load_profile } = require('../service/session_parser');
 
 let speedcheck = process.argv[2] === 'speedcheck';
@@ -135,15 +135,12 @@ const check_order = async (token, cart, reserve_time) => {
                 // Success logic
                 if (success) {
                     // Send notification to webhook
-                    if (config.dingdong.webhook_url) {
-                        axios({
-                            method: 'get',
-                            url: `${config.dingdong.webhook_url}/${encodeURIComponent(`dingdongsuccess${JSON.stringify({
-                                device: profile.alias,
-                                amount: order.order.total_money,
-                                time: reserve_time.time_text,
-                            })}`)}`,
-                        });
+                    try {
+                        if (config.dingdong.webhook_url) webhook({ profile, cart, order, reserve_time });
+                    } catch (e) {
+                        logger.e(`[${profile.alias}] 调用 Webhook 方法时出现错误: ${e}`);
+                        logger.e(`[${profile.alias}] 请检查您的 webhook_url 是否正确, /service/webhook.js 是否编写正确`);
+                        if (e.stack) logger.d(e.stack);
                     }
                     logger.i(`[${profile.alias}] 下单成功`);
                     if (!speedcheck) {

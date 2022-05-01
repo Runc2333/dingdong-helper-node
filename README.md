@@ -48,7 +48,7 @@ yarn
 2、修改其中提供的选项
 
 ```js
-webhook_url: '', // 下单成功通知url，暂无配套实现，如未阅读源码请**不要**填写
+webhook_url: '', // 下单成功通知url，暂无配套实现，详情请参见下文 Webhook 部分
 submit_interval_min: 20 * 1000, // 随机最小请求间隔时间
 submit_interval_max: 50 * 1000, // 随机最大请求间隔时间
 minimal_order_money: 0, // 小于该金额的订单不会被提交
@@ -112,6 +112,27 @@ yarn checkout:normal
 因应用可主动选择不使用系统http代理，因此您需要一个第三方应用程序来实现抓包。
 
 [教程参见](https://www.jianshu.com/p/27e1ee1efe2b)
+
+# Webhook
+
+> 您需要根据所使用的客户端，自行修改源代码进行适配
+
+默认情况下，在您配置好`webhook_url`后，下单成功时会向改地址发送一个`POST`请求，`body`为`JSON`格式，包含如下字段：
+
+```js
+{
+	profile: '测试', // 配置文件中填写的别名
+	price: 0.01, // 本次下单金额
+	arrival_time: '14:30-22:00', // 本次下单的预约时间
+	raw: {
+		cart: ..., // 原始的购物车数据
+		order: ..., // 原始的订单数据
+		reserve_time: ..., // 原始的预约时间数据
+	}
+}
+```
+
+您可以通过修改`/service/webhook.js`来改变请求发送的方式、`body`的格式和内容，但入参（`{ profile, order, reserve_time, cart }`）不能修改。
 
 # 免责声明
 
