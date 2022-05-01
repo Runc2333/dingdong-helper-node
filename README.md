@@ -21,7 +21,7 @@ Telegram 交流群组：[点击加入](https://t.me/weneedfood)
 
 **请注意：** 更新后配置文件结构有更改，需要重新配置。
 
-　　　　更新前的 Session 文件不继续适用于本项目，请重新获取。
+　　　　 更新前的 Session 文件不继续适用于本项目，请重新获取。
 
 特别感谢 [@IMLR](https://github.com/IMLR) 完成的`sesi`和`nars`签名算法分析。
 
@@ -29,9 +29,11 @@ Telegram 交流群组：[点击加入](https://t.me/weneedfood)
 
 ### 安装依赖
 
-*若您没有`node.js`运行环境，请先安装`node.js`。*
+>  *若您没有`node.js`运行环境，请先安装`node.js`。*
 
-*随后执行`npm i yarn -g`来全局安装`yarn`*
+>  *随后执行`npm i yarn -g`来全局安装`yarn`*
+
+**在终端执行如下命令以安装依赖：**
 
 
 ```
