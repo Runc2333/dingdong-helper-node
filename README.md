@@ -65,7 +65,7 @@ profiles: [
 ```
 ### 获取 Session
 
-> 如果无法找到所列出的请求，请[参见](#ios%E8%AE%BE%E5%A4%87-charles-%E6%8A%93%E5%8C%85%E5%B8%AE%E5%8A%A9)
+> 如果无法找到所列出的请求，请[参见](#ios%20%E8%AE%BE%E5%A4%87-charles-%E6%8A%93%E5%8C%85%E5%B8%AE%E5%8A%A9)
 
 1、在**iOS设备**上启动叮咚买菜APP
 
@@ -109,13 +109,13 @@ yarn checkout:speed
 yarn checkout:normal
 ```
 
-## iOS设备 Charles 抓包帮助
+## iOS 设备 Charles 抓包帮助
 
 因应用可主动选择不使用系统http代理，因此您需要一个第三方应用程序来实现抓包。
 
-[教程参见](https://www.jianshu.com/p/27e1ee1efe2b)
+由 [@iiwen](https://github.com/iiwen) 撰写的 [完整图文抓包教程参见](https://www.jianshu.com/p/0191790ba30e)
 
-# Webhook
+## Webhook
 
 > 您需要根据所使用的客户端，自行修改源代码进行适配
 
@@ -136,13 +136,13 @@ yarn checkout:normal
 
 您可以通过修改`/service/webhook.js`来改变请求发送的方式、`body`的格式和内容，但入参（`{ profile, order, reserve_time, cart }`）不能修改。
 
-# 下单成功提示音
+## 下单成功提示音
 
 下单成功时会播放`/assets/success.mp3`，默认为小猪佩奇，可自行替换。
 
 目前不支持关闭。
 
-# 免责声明
+## 免责声明
 
 本程序使用 GNU General Public License v3.0 开源、不提供任何担保。使用本程序即表明，您知情并同意：
 
