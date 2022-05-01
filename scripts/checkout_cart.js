@@ -90,7 +90,6 @@ const check_order = async (token, cart, reserve_time) => {
 };
 
 (async () => {
-    await tools.sleep(1000);
     for (let profile of config.dingdong.profiles) {
         (async () => {
             let session = load_profile(profile);

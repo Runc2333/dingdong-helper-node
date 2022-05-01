@@ -12,6 +12,7 @@ module.exports = async (session, cart, order, reserve_time) => {
             "is_use_balance": "0",
             "address_id": session.user.address_id,
             "current_position": [session.params["latitude"], session.params["longitude"]],
+            "user_ticket_id": order.order.default_coupon._id,
         },
         "packages": [{
             "first_selected_big_time": "0",
