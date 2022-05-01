@@ -33,9 +33,9 @@ Telegram 交流群组：[点击加入](https://t.me/weneedfood)
 
 ### 安装依赖
 
->  *若您没有`node.js`运行环境，请先安装`node.js`**
+>  *若您没有`node.js`运行环境，请先安装`node.js`*
 >
->  **随后执行`npm i yarn -g`来全局安装`yarn`*
+>  *随后执行`npm i yarn -g`来全局安装`yarn`*
 
 **在终端执行如下命令以安装依赖：**
 
