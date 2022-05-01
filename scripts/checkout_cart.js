@@ -104,9 +104,15 @@ const check_order = async (token, cart, reserve_time) => {
                 logger.e(`[${profile.alias}] 没有设置默认地址，请先设置`);
                 process.exit(1);
             }
+            let [longitude, latitude] = default_address.location.location;
             session.params.station_id = default_address.station_id;
             session.params.city_number = default_address.city_number;
+            session.params.longitude = longitude;
+            session.params.latitude = latitude;
+            session.headers["ddmc-station-id"] = default_address.station_id;
             session.headers["ddmc-city-number"] = default_address.city_number;
+            session.headers["ddmc-longitude"] = longitude;
+            session.headers["ddmc-latitude"] = latitude;
             session.user.address_id = default_address.id;
             logger.i(`[${profile.alias}] 当前默认地址 : ${default_address.location.address}`);
             // Tring to make order
