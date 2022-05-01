@@ -23,33 +23,42 @@ const load_profile = (profile) => {
     for (let key in query) {
         query[key] = decodeURIComponent(query[key]);
     }
+    const query_locator = (name) => {
+        if (query[name] !== undefined) {
+            return query[name];
+        }
+        logger.w(`[${profile.alias}] 未能从 session 文件提取需要的 query: ${name}, 已返回空字符串`);
+        logger.w(`[${profile.alias}] 请检查您导出的 session 文件是否正确`);
+        logger.w(`[${profile.alias}] 如可正常运行，请忽略`);
+        return '';
+    };
     const params = new Proxy({
-        "ab_config": query["ab_config"],
-        "api_version": query["api_version"],
-        "app_client_id": query["app_client_id"],
-        "app_type": query["app_type"],
-        "buildVersion": query["buildVersion"],
-        "channel": query["channel"],
-        "city_number": query["city_number"],
-        "countryCode": query["countryCode"],
-        "device_id": query["device_id"],
-        "device_model": query["device_model"],
-        "device_name": query["device_name"],
-        "device_token": query["device_token"],
-        "idfa": query["idfa"],
-        "ip": query["ip"],
-        "is_filter": query["is_filter"],
-        "is_load": query["is_load"],
-        "languageCode": query["languageCode"],
-        "latitude": query["latitude"],
-        "localeIdentifier": query["localeIdentifier"],
-        "longitude": query["longitude"],
-        "os_version": query["os_version"],
-        "seqid": query["seqid"],
-        "sign": query["sign"],
-        "station_id": query["station_id"],
-        "time": query["time"],
-        "uid": query["uid"],
+        "ab_config": query_locator("ab_config"),
+        "api_version": query_locator("api_version"),
+        "app_client_id": query_locator("app_client_id"),
+        "app_type": query_locator("app_type"),
+        "buildVersion": query_locator("buildVersion"),
+        "channel": query_locator("channel"),
+        "city_number": query_locator("city_number"),
+        "countryCode": query_locator("countryCode"),
+        "device_id": query_locator("device_id"),
+        "device_model": query_locator("device_model"),
+        "device_name": query_locator("device_name"),
+        "device_token": query_locator("device_token"),
+        "idfa": query_locator("idfa"),
+        "ip": query_locator("ip"),
+        "is_filter": query_locator("is_filter"),
+        "is_load": query_locator("is_load"),
+        "languageCode": query_locator("languageCode"),
+        "latitude": query_locator("latitude"),
+        "localeIdentifier": query_locator("localeIdentifier"),
+        "longitude": query_locator("longitude"),
+        "os_version": query_locator("os_version"),
+        "seqid": query_locator("seqid"),
+        "sign": query_locator("sign"),
+        "station_id": query_locator("station_id"),
+        "time": query_locator("time"),
+        "uid": query_locator("uid"),
     }, {
         get (target, key) {
             if (key == 'time') {
@@ -72,31 +81,39 @@ const load_profile = (profile) => {
             value: decodeURIComponent(v.value),
         };
     });
+    const header_locator = (name) => {
+        let target = header.find(item => item.name.toLowerCase() == name.toLowerCase());
+        if (target) return target.value;
+        logger.w(`[${profile.alias}] 未能从 session 文件提取需要的 header: ${name}, 已返回空字符串`);
+        logger.w(`[${profile.alias}] 请检查您导出的 session 文件是否正确`);
+        logger.w(`[${profile.alias}] 如可正常运行，请忽略`);
+        return '';
+    };
     const headers = new Proxy({
-        "ddmc-city-number": header.find(item => item.name.toLowerCase() == "ddmc-city-number").value,
-        "ddmc-locale-identifier": header.find(item => item.name.toLowerCase() == "ddmc-locale-identifier").value,
-        "user-agent": header.find(item => item.name.toLowerCase() == "user-agent").value,
-        "ddmc-device-token": header.find(item => item.name.toLowerCase() == "ddmc-device-token").value,
-        "cookie": header.find(item => item.name.toLowerCase() == "cookie").value,
-        "ddmc-api-version": header.find(item => item.name.toLowerCase() == "ddmc-api-version").value,
-        "ddmc-build-version": header.find(item => item.name.toLowerCase() == "ddmc-build-version").value,
-        "ddmc-idfa": header.find(item => item.name.toLowerCase() == "ddmc-idfa").value,
-        "ddmc-longitude": header.find(item => item.name.toLowerCase() == "ddmc-longitude").value,
-        "ddmc-latitude": header.find(item => item.name.toLowerCase() == "ddmc-latitude").value,
-        "ddmc-app-client-id": header.find(item => item.name.toLowerCase() == "ddmc-app-client-id").value,
-        "ddmc-device-name": header.find(item => item.name.toLowerCase() == "ddmc-device-name").value,
-        "ddmc-uid": header.find(item => item.name.toLowerCase() == "ddmc-uid").value,
-        "accept-language": header.find(item => item.name.toLowerCase() == "accept-language").value,
-        "ddmc-device-model": header.find(item => item.name.toLowerCase() == "ddmc-device-model").value,
-        "ddmc-channel": header.find(item => item.name.toLowerCase() == "ddmc-channel").value,
-        "ddmc-country-code": header.find(item => item.name.toLowerCase() == "ddmc-country-code").value,
-        "ddmc-device-id": header.find(item => item.name.toLowerCase() == "ddmc-device-id").value,
-        "ddmc-ip": header.find(item => item.name.toLowerCase() == "ddmc-ip").value,
-        "ddmc-station-id": header.find(item => item.name.toLowerCase() == "ddmc-station-id").value,
-        "ddmc-language-code": header.find(item => item.name.toLowerCase() == "ddmc-language-code").value,
-        "accept": header.find(item => item.name.toLowerCase() == "accept").value,
-        "accept-encoding": header.find(item => item.name.toLowerCase() == "accept-encoding").value,
-        "ddmc-os-version": header.find(item => item.name.toLowerCase() == "ddmc-os-version").value,
+        "ddmc-city-number": header_locator("ddmc-city-number"),
+        "ddmc-locale-identifier": header_locator("ddmc-locale-identifier"),
+        "user-agent": header_locator("user-agent"),
+        "ddmc-device-token": header_locator("ddmc-device-token"),
+        "cookie": header_locator("cookie"),
+        "ddmc-api-version": header_locator("ddmc-api-version"),
+        "ddmc-build-version": header_locator("ddmc-build-version"),
+        "ddmc-idfa": header_locator("ddmc-idfa"),
+        "ddmc-longitude": header_locator("ddmc-longitude"),
+        "ddmc-latitude": header_locator("ddmc-latitude"),
+        "ddmc-app-client-id": header_locator("ddmc-app-client-id"),
+        "ddmc-device-name": header_locator("ddmc-device-name"),
+        "ddmc-uid": header_locator("ddmc-uid"),
+        "accept-language": header_locator("accept-language"),
+        "ddmc-device-model": header_locator("ddmc-device-model"),
+        "ddmc-channel": header_locator("ddmc-channel"),
+        "ddmc-country-code": header_locator("ddmc-country-code"),
+        "ddmc-device-id": header_locator("ddmc-device-id"),
+        "ddmc-ip": header_locator("ddmc-ip"),
+        "ddmc-station-id": header_locator("ddmc-station-id"),
+        "ddmc-language-code": header_locator("ddmc-language-code"),
+        "accept": header_locator("accept"),
+        "accept-encoding": header_locator("accept-encoding"),
+        "ddmc-os-version": header_locator("ddmc-os-version"),
         im_secret: profile.im_secret,
     }, {
         get (target, key) {
