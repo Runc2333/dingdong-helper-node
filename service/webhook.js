@@ -1,5 +1,5 @@
 module.exports = ({ profile, order, reserve_time, cart }) => {
-    axios({
+    return axios({
         method: "post",
         url: config.dingdong.webhook_url,
         data: {

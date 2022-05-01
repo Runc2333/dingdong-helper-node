@@ -18,6 +18,8 @@ Telegram 交流群组：[点击加入](https://t.me/weneedfood)
 `api_version: 9.50.1`
 
 > 2022-05-01 19:42: 拉取最新repo时请再执行一次安装依赖的命令，添加了播放音频的库
+>
+> 2022-05-01 21:19: 拉取最新repo时请重新配置`config.js`，添加了多线程相关设置
 
 **使用iOS原生客户端API，下单与iOS真机无差异，已测试可成功下单。**
 
@@ -50,9 +52,11 @@ yarn
 2、修改其中提供的选项
 
 ```js
-webhook_url: '', // 下单成功通知url，暂无配套实现，详情请参见下文 Webhook 部分
-submit_interval_min: 20 * 1000, // 随机最小请求间隔时间
-submit_interval_max: 50 * 1000, // 随机最大请求间隔时间
+webhook_url: '', // 下单成功通知url，暂无配套实现，如未阅读源码请**不要**填写
+thread_count: 2, // 下单时创建的线程数，建议不要超过3
+thread_interval: 100, // 线程创建间隔，建议不要低于100，单位ms
+submit_interval_min: 20 * 1000, // 随机最小请求间隔时间，单位ms
+submit_interval_max: 50 * 1000, // 随机最大请求间隔时间，单位ms
 minimal_order_money: 0, // 小于该金额的订单不会被提交
 api_channel: 'ios-native', // 可选 'ios-native', 'android-native' 或 'applet', 目前仅支持 'ios-native'
 profiles: [
@@ -95,7 +99,7 @@ profiles: [
 
 ### 速抢模式
 
-建议抢菜高峰(06:00, 08:30)前一分钟启动，运行不要超过三分钟，否则账号会被风控。
+> 建议抢菜高峰(06:00, 08:30)前一分钟启动，运行不要超过三分钟，否则账号会被风控
 
 ```
 yarn checkout:speed
@@ -103,7 +107,9 @@ yarn checkout:speed
 
 ### 捡漏模式
 
-配置文件内可调请求间隔，默认20s ~ 50s随机
+> 建议运行不要超过六小时，否则极易被封号
+>
+> 配置文件内可调请求间隔，默认20s ~ 50s随机
 
 ```
 yarn checkout:normal
@@ -119,7 +125,7 @@ yarn checkout:normal
 
 > 您需要根据所使用的客户端，自行修改源代码进行适配
 
-默认情况下，在您配置好`webhook_url`后，下单成功时会向改地址发送一个`POST`请求，`body`为`JSON`格式，包含如下字段：
+默认情况下，在您配置好`webhook_url`后，下单成功时会向该地址发送一个`POST`请求，`body`为`JSON`格式，包含如下字段：
 
 ```js
 {
