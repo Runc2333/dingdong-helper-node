@@ -29,9 +29,9 @@ Telegram 交流群组：[点击加入](https://t.me/weneedfood)
 
 ### 安装依赖
 
->  *若您没有`node.js`运行环境，请先安装`node.js`。*
-
->  *随后执行`npm i yarn -g`来全局安装`yarn`*
+>  *若您没有`node.js`运行环境，请先安装`node.js`**
+>
+>  **随后执行`npm i yarn -g`来全局安装`yarn`*
 
 **在终端执行如下命令以安装依赖：**
 
@@ -62,6 +62,8 @@ profiles: [
 ],
 ```
 ### 获取 Session
+
+> 如果无法找到所列出的请求，请[参见](#ios%E8%AE%BE%E5%A4%87-charles-%E6%8A%93%E5%8C%85%E5%B8%AE%E5%8A%A9)
 
 1、在**iOS设备**上启动叮咚买菜APP
 
@@ -110,3 +112,10 @@ yarn checkout:normal
 因应用可主动选择不使用系统http代理，因此您需要一个第三方应用程序来实现抓包。
 
 [教程参见](https://www.jianshu.com/p/27e1ee1efe2b)
+
+# 免责声明
+
+本程序使用 GNU General Public License v3.0 开源、不提供任何担保。使用本程序即表明，您知情并同意：
+
+- 使用本程序造成的一切后果由您本人承担，作者不会对您的任何损失负责，包括但不限于服务中断、Kernel Panic、机器无法开机或正常使用、数据丢失或硬件损坏、原子弹爆炸、第三次世界大战、SCP 基金会无法阻止 SCP-3125 引发的全球 MK 级现实重构等
+- 如若您修改了本程序并发布，您需要使用相同协议开源
