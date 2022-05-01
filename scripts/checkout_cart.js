@@ -49,7 +49,7 @@ const get_reserve_time = async (token, cart) => {
         try {
             let resp = await ddmc.get_multi_reserve_time(token, cart);
             for (let time of resp[0].time[0].times) {
-                if (!time.fullFlag) {
+                if (!time.fullFlag && !time.arrival_time_msg.includes('尽快')) {
                     reserve_time = {
                         reserved_time_start: time.start_timestamp,
                         reserved_time_end: time.end_timestamp,
