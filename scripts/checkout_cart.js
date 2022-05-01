@@ -59,7 +59,7 @@ const get_reserve_time = async (token, cart) => {
                 }
             }
             if (!reserve_time) {
-                throw new Error('没有可预约的时间');
+                throw ('没有可预约的时间');
             }
         } catch (e) {
             reserve_time = undefined;
@@ -126,7 +126,7 @@ const check_order = async (token, cart, reserve_time) => {
                         reserve_time = await get_reserve_time(session, cart);
                         await check_order(session, cart, reserve_time);
                     }
-                    if (String(e).includes('售罄') || String(e).includes('订单金额不满足最低要求')) {
+                    if (String(e).includes('售罄') || String(e).includes('缺货') || String(e).includes('订单金额不满足最低要求')) {
                         // Cart changed, refresh
                         await ddmc.cart_check_all(session);
                         cart = await get_cart(session);
