@@ -9,7 +9,7 @@ module.exports = async (session, cart) => {
             "category_path": v.category_path,
             "count": v.count,
             "type": v.type,
-            "batch_type": v.sale_batches.batch_type,
+            "batch_type": v.sale_batches ? v.sale_batches.batch_type : 0,
             "is_coupon_gift": v.is_gift,
             "price": v.price,
             "order_sort": String(v.order_sort),

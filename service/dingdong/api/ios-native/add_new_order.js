@@ -19,7 +19,7 @@ module.exports = async (session, cart, order, reserve_time) => {
             "products": cart.new_order_product_list[0].products.map(v => {
                 return {
                     "price": v.price,
-                    "batch_type": v.sale_batches.batch_type,
+                    "batch_type": v.sale_batches ? v.sale_batches.batch_type : 0,
                     "order_sort": v.order_sort,
                     "cart_id": v.cart_id,
                     "parent_id": v.parent_id,
