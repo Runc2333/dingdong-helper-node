@@ -3,9 +3,11 @@ require('../utils/autoloader');
 
 const path = require('path');
 const player = require('sound-play');
+
 const ddmc = require('../service/dingdong');
 const webhook = require('../service/webhook');
 const { load_profile } = require('../service/session_parser');
+const { EventEmitter } = require('events');
 
 let speedcheck = process.argv[2] === 'speedcheck';
 
@@ -135,8 +137,14 @@ const check_order = async (token, cart, reserve_time) => {
             let promise_list = [];
             let thread_count = speedcheck ? (config.dingdong.thread_count || 2) : 1;
             let thread_interval = speedcheck ? (config.dingdong.thread_interval || 100) : 100;
+            let emitter = new EventEmitter();
             const submit_order = async () => {
                 let local_success = false;
+                // Refresh flags to avoid duplicate refresh
+                let reserve_time_already_refreshed = false;
+                emitter.on('reserve_time_refresh', () => { reserve_time_already_refreshed = true; });
+                let cart_already_refreshed = false;
+                emitter.on('cart_refresh', () => { cart_already_refreshed = true; });
                 while (!success) {
                     logger.i(`[${profile.alias}] 尝试下单 ${cart.new_order_product_list[0].total_count} 件商品 总计: ${order.order.total_money} 元 送达时间: ${reserve_time.time_text}`);
                     try {
@@ -145,17 +153,22 @@ const check_order = async (token, cart, reserve_time) => {
                         local_success = true;
                     } catch (e) {
                         logger.e(`[${profile.alias}] 下单失败: ${e}`);
-                        if (String(e).includes('时')) {
+                        if (String(e).includes('时') && !reserve_time_already_refreshed) {
                             // Reserve time changed, refresh
                             reserve_time = await get_reserve_time(session, cart);
-                            await check_order(session, cart, reserve_time);
+                            order = await check_order(session, cart, reserve_time);
+                            emitter.emit('reserve_time_refresh');
                         }
-                        if (String(e).includes('售罄') || String(e).includes('缺货') || String(e).includes('暂未营业') || String(e).includes('订单金额不满足最低要求')) {
+                        if ((String(e).includes('售罄') || String(e).includes('缺货') || String(e).includes('暂未营业') || String(e).includes('订单金额不满足最低要求')) && !cart_already_refreshed) {
                             // Cart changed, refresh
                             await ddmc.cart_check_all(session);
                             cart = await get_cart(session);
-                            await check_order(session, cart, reserve_time);
+                            order = await check_order(session, cart, reserve_time);
+                            emitter.emit('cart_refresh');
                         }
+                        // Reset refresh flag
+                        reserve_time_already_refreshed = false;
+                        cart_already_refreshed = false;
                     }
                     // Success logic
                     if (local_success) {
