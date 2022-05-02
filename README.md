@@ -1,4 +1,8 @@
 # 叮咚买菜抢菜助手（Node.js）
+![Available](https://img.shields.io/badge/%E6%9C%AC%E9%A1%B9%E7%9B%AE%E5%BD%93%E5%89%8D%E5%8F%AF%E7%94%A8%E6%80%A7-PASSED-green.svg "项目当前可用")![Api_version](https://img.shields.io/badge/API version-9.50.1-blue.svg "9.50.1")
+
+> ***可用性显示 PASSED 即表示当日已测试可成功下单***
+
 使用iOS客户端原生API，支持高峰期下单、支持捡漏、支持多账号、支持webhook通知（需自行实现对端）
 
 Telegram 交流群组：[点击加入](https://t.me/weneedfood)
@@ -15,11 +19,9 @@ Telegram 交流群组：[点击加入](https://t.me/weneedfood)
 
 ## 2022-05-01 重大更新
 
-`api_version: 9.50.1`
-
-> 2022-05-01 19:42: 拉取最新repo时请再执行一次安装依赖的命令，添加了播放音频的库
+> 后续更新日志不会写到这里，如确需了解，请查阅 commits
 >
-> 2022-05-01 21:19: 拉取最新repo时请重新配置`config.js`，添加了多线程相关设置
+> 建议每次更新后都执行一次依赖安装，并执行一次任意 script 检查控制台是否提示更新配置文件
 
 **使用iOS原生客户端API，下单与iOS真机无差异，已测试可成功下单。**
 
@@ -33,11 +35,11 @@ Telegram 交流群组：[点击加入](https://t.me/weneedfood)
 
 ### 安装依赖
 
->  *若您没有`node.js`运行环境，请先安装`node.js`*
+>  *若您没有 `node.js` 运行环境，请先安装 `node.js` *
 >
->  *随后执行`npm i yarn -g`来全局安装`yarn`*
+>  *随后执行 `npm i yarn -g` (此命令可能需要管理员特权) 来全局安装`yarn`*
 
-**在终端执行如下命令以安装依赖：**
+**在项目根目录启动终端，并执行如下命令以安装依赖：**
 
 
 ```
@@ -52,7 +54,7 @@ yarn
 2、修改其中提供的选项
 
 ```js
-webhook_url: '', // 下单成功通知url，暂无配套实现，如未阅读源码请**不要**填写
+webhook_url: '', // 下单成功通知url，暂无配套实现，可自行继承，详情请阅读后文 Webhook 部分
 thread_count: 2, // 下单时创建的线程数，建议不要超过3
 thread_interval: 100, // 线程创建间隔，建议不要低于100，单位ms
 submit_interval_min: 20 * 1000, // 随机最小请求间隔时间，单位ms
@@ -69,7 +71,7 @@ profiles: [
 ```
 ### 获取 Session
 
-> 如果无法找到所列出的请求，请[参见](#ios%20%E8%AE%BE%E5%A4%87-charles-%E6%8A%93%E5%8C%85%E5%B8%AE%E5%8A%A9)
+> 如果无法找到所列出的请求，请参见后文 iOS 设备 Charles 抓包帮助
 
 1、在**iOS设备**上启动叮咚买菜APP
 
@@ -100,6 +102,8 @@ profiles: [
 ### 速抢模式
 
 > 建议抢菜高峰(06:00, 08:30)前一分钟启动，运行不要超过三分钟，否则账号会被风控
+>
+> 本项目不支持，也不会支持定时运行，所有执行选项都应在有人值守的情况下使用
 
 ```
 yarn checkout:speed
@@ -111,7 +115,7 @@ yarn checkout:speed
 >
 > 配置文件内可调请求间隔，默认20s ~ 50s随机
 >
-> 捡漏模式的下单步骤不受请求间隔限制，默认逻辑为同时满足购物车有货和配送时间可用时疯狂下单，因此请勿在无人值守的情况下运行
+> 捡漏模式中的下单步骤不受请求间隔限制，默认逻辑为同时满足购物车有货和配送时间可用时疯狂下单，因此请勿在无人值守的情况下运行
 
 ```
 yarn checkout:normal
@@ -127,7 +131,7 @@ yarn checkout:normal
 
 > 您需要根据所使用的客户端，自行修改源代码进行适配
 
-默认情况下，在您配置好`webhook_url`后，下单成功时会向该地址发送一个`POST`请求，`body`为`JSON`格式，包含如下字段：
+默认情况下，在您配置好 `webhook_url` 后，下单成功时会向该地址发送一个 `POST` 请求， `body` 为 `JSON` 格式，包含如下字段：
 
 ```js
 {
@@ -142,13 +146,13 @@ yarn checkout:normal
 }
 ```
 
-您可以通过修改`/service/webhook.js`来改变请求发送的方式、`body`的格式和内容，但入参（`{ profile, order, reserve_time, cart }`）不能修改。
+您可以通过修改 `/service/webhook.js` 来改变请求发送的方式、 `body` 的格式和内容，但入参（`{ profile, order, reserve_time, cart }`）不能修改。
 
 ## 下单成功提示音
 
 下单成功时会播放`/assets/success.mp3`，默认为小猪佩奇，可自行替换。
 
-目前不支持关闭。
+如需关闭，请前往 `/scripts/checkout_cart.js` 自行注释相关代码。
 
 ## 免责声明
 
