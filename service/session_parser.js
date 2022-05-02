@@ -19,7 +19,14 @@ const load_profile = (profile) => {
         im_secret: profile.im_secret,
     };
 
-    const query = tools.parse_query(req_data[0].query);
+    let query;
+    try {
+        query = tools.parse_query(req_data[0].query);
+    } catch (e) {
+        logger.e(e);
+        logger.e('请检查您的配置文件是否正确, charles_session 目录下是否存在 .chlsj（JSON Session File） 文件');
+        process.exit(1);
+    }
     for (let key in query) {
         query[key] = decodeURIComponent(query[key]);
     }
@@ -75,12 +82,19 @@ const load_profile = (profile) => {
         },
     });
 
-    const header = req_data[0].request.header.headers.map(v => {
-        return {
-            name: decodeURIComponent(v.name),
-            value: decodeURIComponent(v.value),
-        };
-    });
+    let header;
+    try {
+        header = req_data[0].request.header.headers.map(v => {
+            return {
+                name: decodeURIComponent(v.name),
+                value: decodeURIComponent(v.value),
+            };
+        });
+    } catch (e) {
+        logger.e(e);
+        logger.e('请检查您的配置文件是否正确, charles_session 目录下是否存在 .chlsj（JSON Session File） 文件');
+        process.exit(1);
+    }
     const header_locator = (name) => {
         let target = header.find(item => item.name.toLowerCase() == name.toLowerCase());
         if (target) return target.value;
