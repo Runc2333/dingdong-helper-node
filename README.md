@@ -1,5 +1,5 @@
 # 叮咚买菜抢菜助手（Node.js）
-![Available](https://img.shields.io/badge/%E6%9C%AC%E9%A1%B9%E7%9B%AE%E5%BD%93%E5%89%8D%E5%8F%AF%E7%94%A8%E6%80%A7-PASSED-green.svg "项目当前可用") ![Api_version](https://img.shields.io/badge/API%20version-9.50.1-blue.svg "9.50.1")
+![available](https://img.shields.io/badge/%E6%9C%AC%E9%A1%B9%E7%9B%AE%E5%BD%93%E5%89%8D%E5%8F%AF%E7%94%A8%E6%80%A7-PASSED-green.svg "项目当前可用") ![api_version](https://img.shields.io/badge/API%20version-9.50.1-blue.svg "9.50.1") ![code_size](https://shields.io/github/languages/code-size/Runc2333/dingdong-helper-node) ![last_updayed](https://shields.io/github/last-commit/Runc2333/dingdong-helper-node)
 
 > ***可用性显示 PASSED 即表示当日已测试可成功下单***
 
