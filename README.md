@@ -1,9 +1,9 @@
 # 叮咚买菜抢菜助手（Node.js）
-![available](https://img.shields.io/badge/%E9%A1%B9%E7%9B%AE%E5%BD%93%E5%89%8D%E7%8A%B6%E6%80%81-WARN-yellow.svg "项目当前存在安全风险") ![api_version](https://img.shields.io/badge/API%20version-9.50.1-blue.svg "9.50.1") ![code_size](https://shields.io/github/languages/code-size/Runc2333/dingdong-helper-node) ![last_updayed](https://shields.io/github/last-commit/Runc2333/dingdong-helper-node)
+![available](https://img.shields.io/badge/%E9%A1%B9%E7%9B%AE%E5%BD%93%E5%89%8D%E7%8A%B6%E6%80%81-deprecated-red.svg "项目当前存在安全风险") ![api_version](https://img.shields.io/badge/API%20version-9.50.1-blue.svg "9.50.1") ![code_size](https://shields.io/github/languages/code-size/Runc2333/dingdong-helper-node) ![last_updayed](https://shields.io/github/last-commit/Runc2333/dingdong-helper-node)
 
-> WARN: 项目当前可成功下单，但有较高封号风险，请谨慎使用。
+> Deprecated: 因部分用户无法理解本项目的出发点，自此commit后本仓库将转化为只读，且签名算法不可用。
 >
-> 目前已知: 叮咚会离线清洗数据进行追封，设备被封后下单提示“同一时间下单人数过多”，解封时间暂且不知。
+> 感谢所有先前使用过、听说过、参与过的用户的支持，有缘江湖再见。
 
 使用iOS客户端原生API，支持高峰期下单、支持捡漏、支持多账号、支持webhook通知（需自行实现对端）
 
