@@ -1,7 +1,9 @@
 # 叮咚买菜抢菜助手（Node.js）
-![available](https://img.shields.io/badge/%E6%9C%AC%E9%A1%B9%E7%9B%AE%E5%BD%93%E5%89%8D%E5%8F%AF%E7%94%A8%E6%80%A7-PASSED-green.svg "项目当前可用") ![api_version](https://img.shields.io/badge/API%20version-9.50.1-blue.svg "9.50.1") ![code_size](https://shields.io/github/languages/code-size/Runc2333/dingdong-helper-node) ![last_updayed](https://shields.io/github/last-commit/Runc2333/dingdong-helper-node)
+![available](https://img.shields.io/badge/%E9%A1%B9%E7%9B%AE%E5%BD%93%E5%89%8D%E7%8A%B6%E6%80%81-WARN-yellow.svg "项目当前存在安全风险") ![api_version](https://img.shields.io/badge/API%20version-9.50.1-blue.svg "9.50.1") ![code_size](https://shields.io/github/languages/code-size/Runc2333/dingdong-helper-node) ![last_updayed](https://shields.io/github/last-commit/Runc2333/dingdong-helper-node)
 
-> ***可用性显示 PASSED 即表示当日已测试可成功下单***
+> WARN: 项目当前可成功下单，但有较高封号风险，请谨慎使用。
+>
+> 目前已知: 叮咚会离线清洗数据进行追封，设备被封后下单提示“同一时间下单人数过多”，解封时间暂且不知。
 
 使用iOS客户端原生API，支持高峰期下单、支持捡漏、支持多账号、支持webhook通知（需自行实现对端）
 
@@ -111,7 +113,7 @@ yarn checkout:speed
 
 ### 捡漏模式
 
-> 建议运行不要超过六小时，否则极易被封号
+> 建议运行不要超过一小时，否则极易被封号
 >
 > 配置文件内可调请求间隔，默认20s ~ 50s随机
 >
